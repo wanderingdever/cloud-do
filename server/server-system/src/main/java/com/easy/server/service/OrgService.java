@@ -16,7 +16,6 @@ import com.easy.server.bean.entity.Org;
 import com.easy.server.bean.entity.UserOrg;
 import com.easy.server.bean.vo.org.OrgSimpleTreeVO;
 import com.easy.server.bean.vo.org.OrgTreeVO;
-import com.easy.server.bean.vo.org.OrgUserTreeVO;
 import com.easy.server.bean.vo.org.OrgVO;
 import com.easy.server.dao.OrgMapper;
 import lombok.AllArgsConstructor;
@@ -127,24 +126,5 @@ public class OrgService extends ServiceImpl<OrgMapper, Org> {
 
     private OrgVO toOrgVO(Org org) {
         return BeanUtils.copyProperties(org, OrgVO.class);
-    }
-
-    public List<OrgUserTreeVO> orgUserTree() {
-        List<OrgUserTreeVO> orgList = baseMapper.selectTheOrgInfo();
-        return buildOrgUserTree(orgList);
-    }
-
-    /**
-     * 构建机构用户组成的树形数据
-     *
-     * @param list List<OrgUserTreeVO>
-     * @return List<OrgUserTreeVO>
-     */
-    private List<OrgUserTreeVO> buildOrgUserTree(List<OrgUserTreeVO> list) {
-        List<OrgUserTreeVO> orgList = baseMapper.selectTheOrgInfo();
-        if (CollectionUtils.isEmpty(orgList)) {
-            return new ArrayList<>();
-        }
-        return TreeUtils.makeTree(orgList, x -> "0".equals(x.getParentId()), (x, y) -> x.getId().equals(y.getParentId()), OrgUserTreeVO::setChildren);
     }
 }

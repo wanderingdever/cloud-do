@@ -2,7 +2,6 @@ package com.easy.server.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.easy.common.core.constant.Constants;
 import com.easy.common.core.dto.IdDTO;
 import com.easy.server.bean.dto.org.OrgDTO;
 import com.easy.server.bean.dto.org.OrgEditDTO;
@@ -60,28 +59,28 @@ public class OrgController {
 
     @PostMapping("/page")
     @Operation(summary = "分页查询组织")
-    @SaCheckPermission(value = "system.org.page", orRole = Constants.ADMIN_ROLE)
+    @SaCheckPermission(value = "system.org.page")
     public Page<OrgVO> page(@RequestBody OrgPageDTO dto) {
         return orgService.page(dto);
     }
 
     @PostMapping("/add")
     @Operation(summary = "新增组织信息")
-    @SaCheckPermission(value = "system.org.add", orRole = Constants.ADMIN_ROLE)
+    @SaCheckPermission(value = "system.org.add")
     public void add(@Valid @RequestBody OrgDTO dto) {
         orgService.add(dto);
     }
 
     @PostMapping("/update")
     @Operation(summary = "更新组织信息")
-    @SaCheckPermission(value = "system.org.update", orRole = Constants.ADMIN_ROLE)
+    @SaCheckPermission(value = "system.org.update")
     public void update(@Valid @RequestBody OrgEditDTO dto) {
         orgService.update(dto);
     }
 
     @PostMapping("/del")
     @Operation(summary = "删除组织信息")
-    @SaCheckPermission(value = "system.org.del", orRole = Constants.ADMIN_ROLE)
+    @SaCheckPermission(value = "system.org.del")
     public void del(@RequestBody IdDTO dto) {
         orgService.del(dto);
     }
@@ -89,7 +88,8 @@ public class OrgController {
     @PostMapping("/org_user_tree")
     @Operation(summary = "查询机构和用户组成的树形数据")
     public List<OrgUserTreeVO> orgUserTree() {
-        return orgService.orgUserTree();
+        // return orgService.orgUserTree();
+        return null;
     }
 
 }

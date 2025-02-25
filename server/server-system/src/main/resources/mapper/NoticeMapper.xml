@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.easy.server.dao.NoticeMapper">
+    <select id="userPageNotice" resultType="com.easy.server.bean.vo.notice.UserNoticeVO">
+        select n.id as id,
+        n.title as title,
+        n.content as content,
+        n.content_text as contentText,
+        n.type as type,
+        un.`status` as `status`,
+        n.create_time as createTime,
+        n.update_time as updateTime,
+        un.id as userNoticeId,
+        un.user_id as userId
+        from sys_notice n
+        left join sys_user_notice un on n.id = un.notice_id
+        where n.status = 0
+        and un.user_id = #{dto.userId}
+        <if test="dto.status != null ">
+            and un.status = #{dto.status}
+        </if>
+        <if test="dto.title != null and dto.title != ''">
+            and n.title like concat( '%', #{dto.title}, '%')
+        </if>
+        <if test="dto.type != null and dto.type != ''">
+            and n.type = #{dto.content}
+        </if>
+        order by
+        un.status ,
+        un.update_time DESC,
+        un.create_time DESC
+    </select>
+</mapper>
