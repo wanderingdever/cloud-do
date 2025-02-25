@@ -2,12 +2,12 @@ package com.easy.server.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.easy.api.vo.RoleVO;
 import com.easy.common.core.dto.IdDTO;
 import com.easy.common.core.dto.IdListDTO;
 import com.easy.server.bean.dto.role.RoleDTO;
 import com.easy.server.bean.dto.role.RoleEditDTO;
 import com.easy.server.bean.dto.role.RoleSearchDTO;
-import com.easy.server.bean.vo.RoleInfoVO;
 import com.easy.server.service.RoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -58,7 +58,7 @@ public class RoleController {
     @PostMapping("/page")
     @Operation(summary = "角色分页查询")
     @SaCheckPermission(value = "system.role.page")
-    public Page<RoleInfoVO> page(@RequestBody RoleSearchDTO dto) {
+    public Page<RoleVO> page(@RequestBody RoleSearchDTO dto) {
         return roleService.page(dto);
     }
 

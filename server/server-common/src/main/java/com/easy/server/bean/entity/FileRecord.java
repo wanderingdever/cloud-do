@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Schema(description = "文件上传记录")
 @Data
-@TableName(value = "sys_file_record")
+@TableName(value = "file_record")
 public class FileRecord extends BaseIdEntity {
 
     @Schema(description = "文件原名称")
