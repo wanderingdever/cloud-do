@@ -3,7 +3,7 @@ package com.easy.server.bean.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.easy.common.core.base.BaseEntity;
-import com.easy.server.enums.AuthorityLevel;
+import com.easy.common.core.enums.AuthorityLevel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -1,9 +1,9 @@
 package com.easy.server.config;
 
 import cn.dev33.satoken.stp.StpInterface;
+import com.easy.api.vo.RoleVO;
+import com.easy.api.vo.UserRoleAndPermissionVO;
 import com.easy.common.core.exception.CustomizeException;
-import com.easy.server.bean.vo.RoleVO;
-import com.easy.server.bean.vo.UserRoleAndPermissionVO;
 import com.easy.server.service.RoleService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;

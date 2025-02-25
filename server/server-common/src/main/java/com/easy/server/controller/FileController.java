@@ -1,7 +1,6 @@
 package com.easy.server.controller;
 
 
-import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.easy.common.core.dto.IdListDTO;
 import com.easy.common.core.exception.CustomizeException;
@@ -43,7 +42,6 @@ public class FileController {
      */
     @PostMapping(value = "/page")
     @Operation(summary = "获取文件分页")
-    @SaCheckPermission(value = "system.file.page")
     public Page<FileRecord> page(@RequestBody FileQueryDTO dto) {
         return fileRecordService.filePage(dto);
     }

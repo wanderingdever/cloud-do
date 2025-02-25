@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.easy.server.dao.RoleMapper">
-    <select id="selectRoleVoByIds" resultType="com.easy.server.bean.vo.RoleVO">
+    <select id="selectRoleVoByIds" resultType="com.easy.server.bean.vo.RoleInfoVO">
         select role_name, role_key, authority_level, org_id, role_sort, `enable` from sys_role where id in
         <foreach collection="roleIds" open="(" separator="," close=")" item="roleId">
             #{roleId}

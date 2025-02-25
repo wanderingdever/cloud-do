@@ -1,30 +1,33 @@
-package com.easy.server.bean.dto.role;
+package com.easy.server.bean.vo;
 
-
-import com.easy.common.core.dto.PageDTO;
+import com.easy.common.core.base.BaseVO;
 import com.easy.common.core.enums.AuthorityLevel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
+
 /**
- * 角色查询入参
+ * 角色信息
  * </p>
  *
  * @author Matt
  */
-@Data
 @EqualsAndHashCode(callSuper = true)
-@Schema(description = "角色查询入参")
-public class RoleSearchDTO extends PageDTO {
-
+@Schema(description = "角色信息")
+@Data
+public class RoleInfoVO extends BaseVO implements Serializable {
+    /**
+     * 角色名字
+     */
     @Schema(description = "角色名字")
     private String roleName;
 
     /**
-     * 角色权限字符串
+     * 角色key
      */
-    @Schema(description = "角色权限字标识")
+    @Schema(description = "角色key")
     private String roleKey;
 
     /**
@@ -40,8 +43,15 @@ public class RoleSearchDTO extends PageDTO {
     private String orgId;
 
     /**
-     * 是否启用（0停用;1正常）
+     * 显示顺序
      */
-    @Schema(description = "是否启用（0停用;1正常）")
+    @Schema(description = "显示顺序")
+    private Integer roleSort;
+
+    /**
+     * 是否启用
+     */
+    @Schema(description = "是否启用")
     private Boolean enable;
+
 }

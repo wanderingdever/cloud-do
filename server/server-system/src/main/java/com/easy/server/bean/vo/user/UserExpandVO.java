@@ -1,6 +1,6 @@
 package com.easy.server.bean.vo.user;
 
-import com.easy.server.bean.vo.RoleVO;
+import com.easy.api.vo.RoleVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -1,8 +1,8 @@
 package com.easy.server.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.easy.api.vo.RoleVO;
 import com.easy.server.bean.entity.Role;
-import com.easy.server.bean.vo.RoleVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;

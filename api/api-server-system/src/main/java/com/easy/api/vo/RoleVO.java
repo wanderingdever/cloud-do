@@ -1,10 +1,8 @@
-package com.easy.server.bean.vo;
+package com.easy.api.vo;
 
-import com.easy.common.core.base.BaseVO;
-import com.easy.server.enums.AuthorityLevel;
+import com.easy.common.core.enums.AuthorityLevel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
@@ -14,10 +12,9 @@ import java.io.Serializable;
  *
  * @author Matt
  */
-@EqualsAndHashCode(callSuper = true)
 @Schema(description = "角色信息")
 @Data
-public class RoleVO extends BaseVO implements Serializable {
+public class RoleVO implements Serializable {
     /**
      * 角色名字
      */

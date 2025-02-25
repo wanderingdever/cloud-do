@@ -3,6 +3,8 @@ package com.easy.server.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.easy.api.vo.RoleVO;
+import com.easy.api.vo.UserRoleAndPermissionVO;
 import com.easy.common.core.dto.IdDTO;
 import com.easy.common.core.dto.IdListDTO;
 import com.easy.common.core.enums.DelEnum;
@@ -16,8 +18,7 @@ import com.easy.server.bean.dto.role.RoleSearchDTO;
 import com.easy.server.bean.entity.Role;
 import com.easy.server.bean.entity.RoleMenu;
 import com.easy.server.bean.entity.UserRole;
-import com.easy.server.bean.vo.RoleVO;
-import com.easy.server.bean.vo.UserRoleAndPermissionVO;
+import com.easy.server.bean.vo.RoleInfoVO;
 import com.easy.server.dao.RoleMapper;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -67,7 +68,7 @@ public class RoleService extends ServiceImpl<RoleMapper, Role> {
         return new UserRoleAndPermissionVO(roles, permissions);
     }
 
-    public Page<RoleVO> page(RoleSearchDTO dto) {
+    public Page<RoleInfoVO> page(RoleSearchDTO dto) {
         Page<Role> page = lambdaQuery()
                 .like(StringUtils.isNotBlank(dto.getRoleName()), Role::getRoleName, dto.getRoleName())
                 .eq(StringUtils.isNotBlank(dto.getRoleKey()), Role::getRoleKey, dto.getRoleKey())
@@ -75,7 +76,7 @@ public class RoleService extends ServiceImpl<RoleMapper, Role> {
                 .eq(StringUtils.isNotNull(dto.getEnable()), Role::getEnable, dto.getEnable())
                 .eq(StringUtils.isNotBlank(dto.getOrgId()), Role::getOrgId, dto.getOrgId())
                 .page(PageUtils.getPage(dto));
-        return PageUtils.getPage(page, RoleVO.class);
+        return PageUtils.getPage(page, RoleInfoVO.class);
     }
 
     @Transactional(rollbackFor = Exception.class)

@@ -1,4 +1,4 @@
-package com.easy.server.enums;
+package com.easy.common.core.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.AllArgsConstructor;
