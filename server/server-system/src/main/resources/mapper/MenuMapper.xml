@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.easy.server.dao.MenuMapper">
+    <select id="getMenuList" resultType="com.easy.server.bean.vo.MenuTreeVO">
+        SELECT DISTINCT m.id as id,
+        m.menu_name as menuName,
+        m.parent_id as parentId,
+        m.order_num as orderNum,
+        m.`path` as `path`,
+        m.component as component,
+        m.redirect as redirect,
+        m.menu_type as menuType,
+        m.is_iframe as isIframe,
+        m.is_link as isLink,
+        m.is_affix as isAffix,
+        m.link as link,
+        m.is_hide as isHide,
+        m.`is_keep_alive` as isKeepAlive,
+        m.`enable` as `enable`,
+        m.perms as perms,
+        m.icon as icon,
+        m.create_by as createBy,
+        m.create_time as createTime,
+        m.update_by as updateBy,
+        m.update_time as updateTime,
+        m.del as del
+        FROM sys_menu m
+        LEFT JOIN sys_role_menu rm ON m.id = rm.menu_id
+        LEFT JOIN sys_user_role ur ON rm.role_id = ur.role_id
+        LEFT JOIN sys_role r ON ur.role_id = r.id
+        where m.enable = 1 AND r.enable = 1 and m.del= 0
+        <if test="search.userId != null and search.userId != ''">
+            and ur.user_id = #{search.userId}
+        </if>
+        <if test="search.menuName != null and search.menuName != ''">
+            and m.menu_name = #{search.menuName}
+        </if>
+        order by m.order_num
+    </select>
+
+    <select id="getAllMenuList" resultType="com.easy.server.bean.vo.MenuTreeVO">
+        SELECT DISTINCT m.id as id,
+        m.menu_name as menuName,
+        m.parent_id as parentId,
+        m.order_num as orderNum,
+        m.`path` as `path`,
+        m.component as component,
+        m.redirect as redirect,
+        m.menu_type as menuType,
+        m.is_iframe as isIframe,
+        m.is_link as isLink,
+        m.is_affix as isAffix,
+        m.link as link,
+        m.is_hide as isHide,
+        m.`is_keep_alive` as isKeepAlive,
+        m.`enable` as `enable`,
+        m.perms as perms,
+        m.icon as icon,
+        m.create_by as createBy,
+        m.create_time as createTime,
+        m.update_by as updateBy,
+        m.update_time as updateTime,
+        m.del as del
+        FROM sys_menu m
+        where m.enable = 1 and m.del= 0
+        <if test="search.menuName != null and search.menuName != ''">
+            and m.menu_name = #{search.menuName}
+        </if>
+        order by m.order_num
+    </select>
+</mapper>

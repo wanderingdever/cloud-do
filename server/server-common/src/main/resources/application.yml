@@ -1,0 +1,17 @@
+server:
+  port: 11002
+spring:
+  application:
+    name: server-common
+  config:
+    import:
+      - optional:application-web.yml
+      - optional:application-auth.yml
+      - optional:application-datasource.yml
+      - optional:application-dubbo.yml
+  profiles:
+    active: dev
+
+dubbo:
+  application:
+    qos-port: 23336

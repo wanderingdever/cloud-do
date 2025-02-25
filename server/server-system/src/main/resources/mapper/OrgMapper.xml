@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.easy.server.dao.OrgMapper">
+    <resultMap id="UserOrgMap" type="com.easy.server.bean.vo.org.OrgUserTreeVO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="type" property="type"/>
+        <result column="parentId" property="parentId"/>
+        <collection property="children" ofType="com.easy.server.bean.vo.org.OrgUserTreeVO" select="selectUserOrgChild"
+                    column="{id=id,type=type}">
+        </collection>
+    </resultMap>
+
+    <select id="selectTheOrgInfo" resultMap="UserOrgMap">
+        SELECT id AS id,
+        org_name AS `name`,
+        org_parent_id AS parentId,
+        'ORG' AS type
+        FROM sys_org
+        WHERE del = 0
+        ORDER BY org_sort
+    </select>
+</mapper>

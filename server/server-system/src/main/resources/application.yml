@@ -1,0 +1,20 @@
+server:
+  port: 11001
+spring:
+  application:
+    name: server-system
+  config:
+    import:
+      - optional:application-web.yml
+      - optional:application-auth.yml
+      - optional:application-datasource.yml
+      - optional:application-dubbo.yml
+  profiles:
+    active: dev
+
+dubbo:
+  application:
+    qos-port: 23335
+  scan:
+    # 接口实现类扫描
+    base-packages: com.easy.**.service

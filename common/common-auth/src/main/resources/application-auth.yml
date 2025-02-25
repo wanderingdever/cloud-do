@@ -1,0 +1,5 @@
+# Sa-Token 配置
+sa-token:
+  token-name: Easy-Token
+  token-prefix: Bearer
+  is-print: false

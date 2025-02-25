@@ -1,0 +1,32 @@
+server:
+  port: 11000
+spring:
+  application:
+    name: auth-center
+  config:
+    import:
+      - optional:application-web.yml
+      - optional:application-datasource.yml
+      - optional:application-redis.yml
+      - optional:application-dubbo.yml
+  profiles:
+    active: dev
+
+sa-token:
+  token-name: Easy-Token
+  token-prefix: Bearer
+  jwt-secret-key: asdasdasifhueuiwyurfewbfjsdafjk
+  is-print: false
+  timeout: 86400
+  sso-server:
+    # Ticket有效期 (单位: 秒)，默认五分钟
+    ticket-timeout: 300
+    # 所有允许的授权回调地址
+    allow-url: "*"
+
+dubbo:
+  application:
+    qos-port: 23334
+  scan:
+    # 接口实现类扫描
+    base-packages: com.easy.**.service

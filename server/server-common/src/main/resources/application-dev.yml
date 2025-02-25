@@ -1,0 +1,70 @@
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.5.111:3124/cloud_do?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false&allowPublicKeyRetrieval=true
+    username: xc_dev
+    password: E7F@oFw2Ks
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.5.111:4848
+        namespace: dev
+        username: nacos
+        password: zwcb3axb
+  data:
+    redis:
+      host: 192.168.5.111
+      port: 26379
+      password: X4!A@iq#HM
+      database: 12
+  #邮件服务配置
+  mail:
+    host: smtp.feishu.cn
+    port: 587
+    username: 21@dawn-fintech.com
+    password: 122
+    default-encoding: utf-8
+    properties:
+      mail:
+        smtp:
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+          auth: true
+          starttls:
+            enable: true
+            required: true
+# Sa-Token 配置
+sa-token:
+  sso-client:
+    # SSO-Server端主机地址
+    server-url: http://127.0.0.1:11000
+    client: common
+    # 配置Sa-Token单独使用的Redis连接 （此处需要和SSO-Server端连接同一个Redis）
+  alone-redis:
+    host: 192.168.5.111
+    port: 26379
+    password: X4!A@iq#HM
+    database: 12
+    # 连接超时时间
+    timeout: 10s
+
+file:
+  storage: ali
+  # minio
+  minio:
+    endpoint: http://117.72.8.221:9090
+    access-key: minio
+    secret-key: Rxr!2Sw9
+    bucket-name: test
+    preview-expiry: 0
+  ali:
+    endpoint: oss-cn-beijing.aliyuncs.com
+    access-key-id: test
+    access-key-secret: test
+    bucket-name: test
+  tencent:
+    cos:
+      url: https://clogic.cos.ap-chengdu.myqcloud.com
+      secret-id: f
+      secret-key: f
+      region: ap-chengdu
+      bucket-name: test

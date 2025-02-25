@@ -1,0 +1,65 @@
+server:
+  port: 8080
+spring:
+  main:
+    banner-mode: off
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.5.111:4848
+        namespace: dev
+        username: nacos
+        password: zwcb3axb
+    gateway:
+      routes:
+        - metadata:
+            serviceName: 'auth-center'
+          id: auth-center
+          uri: lb://auth-center
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
+        - metadata:
+            serviceName: 'server-system'
+          id: server-system
+          uri: lb://server-system
+          predicates:
+            - Path=/server_system/**
+          filters:
+            - StripPrefix=1
+
+logging:
+  file:
+    path: ./z-logs
+    name: ${logging.file.path}/${spring.application.name}.log
+  level:
+    root: error
+
+knife4j:
+  # 聚合swagger文档
+  gateway:
+    enabled: true
+    strategy: manual
+    discover:
+      enabled: true
+      oas3:
+        url: /v3/api-docs?group=default
+      excluded-services:
+        - gateway
+    routes:
+      - name: 认证服务
+        # 真实子服务访问url地址-提供OpenAPI的文档
+        url: /auth/v3/api-docs?group=default
+        service-name: auth-center
+        # 路由前缀
+        # 兼容OpenAPI3规范在聚合时丢失contextPath属性的异常情况，由开发者自己配置contextPath,Knife4j的前端Ui做兼容处理,与url属性独立不冲突，仅OpenAPI3规范聚合需要，OpenAPI2规范不需要设置此属性,默认为(apiPathPrefix)
+        context-path: /auth
+        order: 2
+      - name: 系统服务
+        url: /server_system/v3/api-docs?group=default
+        service-name: server-system
+        context-path: /server_system
+        order: 3
