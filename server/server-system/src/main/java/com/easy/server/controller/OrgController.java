@@ -87,9 +87,8 @@ public class OrgController {
 
     @PostMapping("/org_user_tree")
     @Operation(summary = "查询机构和用户组成的树形数据")
-    public List<OrgUserTreeVO> orgUserTree() {
-        // return orgService.orgUserTree();
-        return null;
+    public List<OrgUserTreeVO> orgUserTree(@RequestBody IdDTO dto) {
+        return orgService.orgUserTree(dto.getId());
     }
 
 }

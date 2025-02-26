@@ -3,6 +3,8 @@ package com.easy.server.service;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.easy.api.service.UserRemoteService;
+import com.easy.api.vo.UserInfoVO;
 import com.easy.common.core.dto.IdDTO;
 import com.easy.common.core.exception.CustomizeException;
 import com.easy.common.datasource.utils.PageUtils;
@@ -16,12 +18,14 @@ import com.easy.server.bean.entity.Org;
 import com.easy.server.bean.entity.UserOrg;
 import com.easy.server.bean.vo.org.OrgSimpleTreeVO;
 import com.easy.server.bean.vo.org.OrgTreeVO;
+import com.easy.server.bean.vo.org.OrgUserTreeVO;
 import com.easy.server.bean.vo.org.OrgVO;
 import com.easy.server.dao.OrgMapper;
 import lombok.AllArgsConstructor;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.dromara.hutool.core.collection.CollUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -36,6 +40,9 @@ import java.util.List;
 @AllArgsConstructor
 public class OrgService extends ServiceImpl<OrgMapper, Org> {
 
+
+    @DubboReference
+    private UserRemoteService userRemoteService;
 
     private final UserOrgService userOrgService;
 
@@ -102,7 +109,7 @@ public class OrgService extends ServiceImpl<OrgMapper, Org> {
     public List<OrgTreeVO> tree() {
         LambdaQueryWrapper<Org> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         List<Org> list = list(lambdaQueryWrapper);
-        if (CollectionUtils.isEmpty(list)) {
+        if (CollUtil.isEmpty(list)) {
             return new ArrayList<>();
         }
         List<OrgTreeVO> tree = BeanUtils.copyToList(list, OrgTreeVO.class);
@@ -117,7 +124,7 @@ public class OrgService extends ServiceImpl<OrgMapper, Org> {
     public List<OrgSimpleTreeVO> simpleTree() {
         LambdaQueryWrapper<Org> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         List<Org> list = list(lambdaQueryWrapper);
-        if (CollectionUtils.isEmpty(list)) {
+        if (CollUtil.isEmpty(list)) {
             return new ArrayList<>();
         }
         List<OrgSimpleTreeVO> tree = BeanUtils.copyToList(list, OrgSimpleTreeVO.class);
@@ -126,5 +133,25 @@ public class OrgService extends ServiceImpl<OrgMapper, Org> {
 
     private OrgVO toOrgVO(Org org) {
         return BeanUtils.copyProperties(org, OrgVO.class);
+    }
+
+    public List<OrgUserTreeVO> orgUserTree(String id) {
+        // 查询所有机构下面的子机构
+        List<OrgUserTreeVO> children = baseMapper.selectOrgUserTree(id);
+        List<UserOrg> userOrgList = userOrgService.lambdaQuery().eq(UserOrg::getOrgId, id).list();
+        if (CollUtil.isNotEmpty(userOrgList)) {
+            // 查询机构下面的用户
+            List<UserInfoVO> userInfoList = userRemoteService.getUserInfoList(userOrgList.stream().map(UserOrg::getUserId).toList());
+            for (UserInfoVO userInfo : userInfoList) {
+                OrgUserTreeVO orgUserTreeVO = new OrgUserTreeVO();
+                orgUserTreeVO.setId(userInfo.getId());
+                orgUserTreeVO.setName(userInfo.getNickname());
+                orgUserTreeVO.setType("user");
+                orgUserTreeVO.setParentId(id);
+                orgUserTreeVO.setHasChildren(false);
+                children.add(orgUserTreeVO);
+            }
+        }
+        return children;
     }
 }

@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * 机构用户组成的树形
@@ -29,5 +28,5 @@ public class OrgUserTreeVO implements Serializable {
     private String type;
 
     @Schema(description = "子节点")
-    private List<OrgUserTreeVO> children;
+    private Boolean hasChildren;
 }
