@@ -11,7 +11,7 @@
  Target Server Version : 80032 (8.0.32)
  File Encoding         : 65001
 
- Date: 25/02/2025 10:50:53
+ Date: 27/02/2025 14:22:12
 */
 
 SET NAMES utf8mb4;
@@ -59,7 +59,7 @@ CREATE TABLE `login_logs` (
   `update_time` datetime(3) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
   `del` tinyint NOT NULL DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='登录记录';
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='登录记录';
 
 -- ----------------------------
 -- Records of login_logs
@@ -175,6 +175,21 @@ INSERT INTO `login_logs` (`id`, `user_id`, `login_type`, `ip`, `ip_location`, `b
 VALUES (22, 1, 'PWD', '192.168.5.82', ',,内网IP',
         'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36',
         '2025-02-20 16:06:51.000', NULL, NULL, 0);
+INSERT INTO `login_logs` (`id`, `user_id`, `login_type`, `ip`, `ip_location`, `browser`, `login_time`, `create_time`,
+                          `update_time`, `del`)
+VALUES (23, 1, 'PWD', '192.168.5.12', ',,内网IP',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0',
+        '2025-02-25 11:26:58.000', NULL, NULL, 0);
+INSERT INTO `login_logs` (`id`, `user_id`, `login_type`, `ip`, `ip_location`, `browser`, `login_time`, `create_time`,
+                          `update_time`, `del`)
+VALUES (24, 1, 'PWD', '192.168.5.12', ',,内网IP',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0',
+        '2025-02-25 11:40:36.000', NULL, NULL, 0);
+INSERT INTO `login_logs` (`id`, `user_id`, `login_type`, `ip`, `ip_location`, `browser`, `login_time`, `create_time`,
+                          `update_time`, `del`)
+VALUES (25, 1, 'PWD', '192.168.5.12', ',,内网IP',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0',
+        '2025-02-26 11:42:17.000', NULL, NULL, 0);
 COMMIT;
 
 -- ----------------------------
@@ -566,21 +581,33 @@ INSERT INTO `sys_menu` (`id`, `menu_name`, `menu_type`, `parent_id`, `order_num`
                         `enable`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
 VALUES (38, '文件管理', 'PAGE', 2, 9, 'system/file', 'system/file/index', '', 0, 0, 0, 1, 0, NULL, 'system.file.page',
         'iconfont icon-zhongduancanshuchaxun', 1, NULL, '2024-10-10 11:41:10.000', NULL, '2024-10-12 10:22:54.000', 0);
-INSERT INTO `sys_menu` (`id`, `menu_name`, `menu_type`, `parent_id`, `order_num`, `path`, `component`, `redirect`,
-                        `is_iframe`, `is_link`, `is_affix`, `is_keep_alive`, `is_hide`, `link`, `perms`, `icon`,
-                        `enable`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (39, '知识库', 'CATALOGUE', 0, 1, 'dataset', '', '', 0, 0, 0, 1, 0, NULL, 'dataset',
-        'iconfont icon-zhongduancanshuchaxun', 1, '1', '2025-02-14 10:51:22.000', NULL, NULL, 0);
-INSERT INTO `sys_menu` (`id`, `menu_name`, `menu_type`, `parent_id`, `order_num`, `path`, `component`, `redirect`,
-                        `is_iframe`, `is_link`, `is_affix`, `is_keep_alive`, `is_hide`, `link`, `perms`, `icon`,
-                        `enable`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (40, '知识库列表', 'PAGE', 39, 1, 'dataset/index', 'dataset/index', '', 0, 0, 0, 1, 0, NULL, 'dataset.index', '',
-        1, '1', '2025-02-14 10:52:15.000', NULL, NULL, 0);
-INSERT INTO `sys_menu` (`id`, `menu_name`, `menu_type`, `parent_id`, `order_num`, `path`, `component`, `redirect`,
-                        `is_iframe`, `is_link`, `is_affix`, `is_keep_alive`, `is_hide`, `link`, `perms`, `icon`,
-                        `enable`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (41, '知识库详情', 'PAGE', 39, 1, 'dataset/detail/:knowledgeBaseId', 'dataset/detail', '', 0, 0, 0, 1, 1, NULL,
-        'dataset.detail', '', 1, '1', '2025-02-20 16:16:09.000', '1', '2025-02-20 17:03:17.000', 0);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for sys_notice
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_notice`;
+CREATE TABLE `sys_notice`
+(
+    `id`           bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+    `title`        varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '标题',
+    `type`         char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci     NOT NULL COMMENT '类别',
+    `content`      longblob                                                      NOT NULL COMMENT '内容',
+    `content_text` longblob                                                      NOT NULL COMMENT '纯文本内容',
+    `sender`       varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '发送者',
+    `status`       char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci     NOT NULL COMMENT '消息状态',
+    `create_by`    char(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci     DEFAULT NULL COMMENT '创建人',
+    `create_time`  datetime(3) DEFAULT NULL COMMENT '创建时间',
+    `update_by`    char(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci     DEFAULT NULL COMMENT '更新人',
+    `update_time`  datetime(3) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
+    `del`          tinyint unsigned NOT NULL DEFAULT '0' COMMENT '逻辑删除标记',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='消息通知';
+
+-- ----------------------------
+-- Records of sys_notice
+-- ----------------------------
+BEGIN;
 COMMIT;
 
 -- ----------------------------
@@ -655,7 +682,7 @@ CREATE TABLE `sys_role`
 BEGIN;
 INSERT INTO `sys_role` (`id`, `org_id`, `role_name`, `role_key`, `authority_level`, `role_sort`, `enable`, `create_by`,
                         `create_time`, `update_by`, `update_time`, `del`)
-VALUES (1, 1, '超级管理员', 'admin', 'ONESELF', 1, 1, NULL, NULL, '1', '2025-02-11 11:51:03.000', 0);
+VALUES (1, 1, '超级管理员', 'admin', 'ONESELF', 1, 1, NULL, NULL, '1', '2025-02-25 11:38:02.000', 0);
 COMMIT;
 
 -- ----------------------------
@@ -673,132 +700,158 @@ CREATE TABLE `sys_role_menu`
     `update_time` datetime(3) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
     `del`         tinyint unsigned NOT NULL DEFAULT '0' COMMENT '逻辑删除标记',
     PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=177 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='角色->菜单权限关联表';
+) ENGINE=InnoDB AUTO_INCREMENT=208 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='角色->菜单权限关联表';
 
 -- ----------------------------
 -- Records of sys_role_menu
 -- ----------------------------
 BEGIN;
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (117, 1, 1, NULL, '2024-10-09 16:51:57.000', NULL, '2025-02-11 11:51:03.478', 1);
+VALUES (147, 1, 2, '1', '2025-02-11 11:51:03.000', NULL, '2025-02-25 11:38:05.407', 1);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (118, 1, 2, NULL, '2024-10-09 16:51:57.000', NULL, '2025-02-11 11:51:03.478', 1);
+VALUES (148, 1, 1, '1', '2025-02-11 11:51:03.000', NULL, '2025-02-25 11:38:05.407', 1);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (119, 1, 3, NULL, '2024-10-09 16:51:57.000', NULL, '2025-02-11 11:51:03.478', 1);
+VALUES (149, 1, 3, '1', '2025-02-11 11:51:03.000', NULL, '2025-02-25 11:38:05.407', 1);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (120, 1, 9, NULL, '2024-10-09 16:51:57.000', NULL, '2025-02-11 11:51:03.478', 1);
+VALUES (150, 1, 9, '1', '2025-02-11 11:51:03.000', NULL, '2025-02-25 11:38:05.407', 1);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (121, 1, 11, NULL, '2024-10-09 16:51:57.000', NULL, '2025-02-11 11:51:03.478', 1);
+VALUES (151, 1, 11, '1', '2025-02-11 11:51:03.000', NULL, '2025-02-25 11:38:05.407', 1);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (122, 1, 12, NULL, '2024-10-09 16:51:57.000', NULL, '2025-02-11 11:51:03.478', 1);
+VALUES (152, 1, 12, '1', '2025-02-11 11:51:03.000', NULL, '2025-02-25 11:38:05.407', 1);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (123, 1, 6, NULL, '2024-10-09 16:51:57.000', NULL, '2025-02-11 11:51:03.478', 1);
+VALUES (153, 1, 6, '1', '2025-02-11 11:51:03.000', NULL, '2025-02-25 11:38:05.407', 1);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (124, 1, 25, NULL, '2024-10-09 16:51:57.000', NULL, '2025-02-11 11:51:03.478', 1);
+VALUES (154, 1, 25, '1', '2025-02-11 11:51:03.000', NULL, '2025-02-25 11:38:05.407', 1);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (125, 1, 27, NULL, '2024-10-09 16:51:57.000', NULL, '2025-02-11 11:51:03.478', 1);
+VALUES (155, 1, 27, '1', '2025-02-11 11:51:03.000', NULL, '2025-02-25 11:38:05.407', 1);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (126, 1, 26, NULL, '2024-10-09 16:51:57.000', NULL, '2025-02-11 11:51:03.478', 1);
+VALUES (156, 1, 26, '1', '2025-02-11 11:51:03.000', NULL, '2025-02-25 11:38:05.407', 1);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (127, 1, 7, NULL, '2024-10-09 16:51:57.000', NULL, '2025-02-11 11:51:03.478', 1);
+VALUES (157, 1, 7, '1', '2025-02-11 11:51:03.000', NULL, '2025-02-25 11:38:05.407', 1);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (128, 1, 24, NULL, '2024-10-09 16:51:57.000', NULL, '2025-02-11 11:51:03.478', 1);
+VALUES (158, 1, 24, '1', '2025-02-11 11:51:03.000', NULL, '2025-02-25 11:38:05.407', 1);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (129, 1, 23, NULL, '2024-10-09 16:51:57.000', NULL, '2025-02-11 11:51:03.478', 1);
+VALUES (159, 1, 23, '1', '2025-02-11 11:51:03.000', NULL, '2025-02-25 11:38:05.407', 1);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (130, 1, 22, NULL, '2024-10-09 16:51:57.000', NULL, '2025-02-11 11:51:03.478', 1);
+VALUES (160, 1, 22, '1', '2025-02-11 11:51:03.000', NULL, '2025-02-25 11:38:05.407', 1);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (131, 1, 8, NULL, '2024-10-09 16:51:57.000', NULL, '2025-02-11 11:51:03.478', 1);
+VALUES (161, 1, 8, '1', '2025-02-11 11:51:03.000', NULL, '2025-02-25 11:38:05.407', 1);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (132, 1, 19, NULL, '2024-10-09 16:51:57.000', NULL, '2025-02-11 11:51:03.478', 1);
+VALUES (162, 1, 19, '1', '2025-02-11 11:51:03.000', NULL, '2025-02-25 11:38:05.407', 1);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (133, 1, 20, NULL, '2024-10-09 16:51:57.000', NULL, '2025-02-11 11:51:03.478', 1);
+VALUES (163, 1, 20, '1', '2025-02-11 11:51:03.000', NULL, '2025-02-25 11:38:05.407', 1);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (134, 1, 21, NULL, '2024-10-09 16:51:57.000', NULL, '2025-02-11 11:51:03.478', 1);
+VALUES (164, 1, 21, '1', '2025-02-11 11:51:03.000', NULL, '2025-02-25 11:38:05.407', 1);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (135, 1, 5, NULL, '2024-10-09 16:51:57.000', NULL, '2025-02-11 11:51:03.478', 1);
+VALUES (165, 1, 5, '1', '2025-02-11 11:51:03.000', NULL, '2025-02-25 11:38:05.407', 1);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (136, 1, 13, NULL, '2024-10-09 16:51:57.000', NULL, '2025-02-11 11:51:03.478', 1);
+VALUES (166, 1, 13, '1', '2025-02-11 11:51:03.000', NULL, '2025-02-25 11:38:05.407', 1);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (137, 1, 30, NULL, '2024-10-09 16:51:57.000', NULL, '2025-02-11 11:51:03.478', 1);
+VALUES (167, 1, 14, '1', '2025-02-11 11:51:03.000', NULL, '2025-02-25 11:38:05.407', 1);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (138, 1, 28, NULL, '2024-10-09 16:51:57.000', NULL, '2025-02-11 11:51:03.478', 1);
+VALUES (168, 1, 15, '1', '2025-02-11 11:51:03.000', NULL, '2025-02-25 11:38:05.407', 1);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (139, 1, 29, NULL, '2024-10-09 16:51:57.000', NULL, '2025-02-11 11:51:03.478', 1);
+VALUES (169, 1, 4, '1', '2025-02-11 11:51:03.000', NULL, '2025-02-25 11:38:05.407', 1);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (140, 1, 14, NULL, '2024-10-09 16:51:57.000', NULL, '2025-02-11 11:51:03.478', 1);
+VALUES (170, 1, 17, '1', '2025-02-11 11:51:03.000', NULL, '2025-02-25 11:38:05.407', 1);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (141, 1, 15, NULL, '2024-10-09 16:51:57.000', NULL, '2025-02-11 11:51:03.478', 1);
+VALUES (171, 1, 18, '1', '2025-02-11 11:51:03.000', NULL, '2025-02-25 11:38:05.407', 1);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (142, 1, 4, NULL, '2024-10-09 16:51:57.000', NULL, '2025-02-11 11:51:03.478', 1);
+VALUES (172, 1, 16, '1', '2025-02-11 11:51:03.000', NULL, '2025-02-25 11:38:05.407', 1);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (143, 1, 17, NULL, '2024-10-09 16:51:57.000', NULL, '2025-02-11 11:51:03.478', 1);
+VALUES (173, 1, 10, '1', '2025-02-11 11:51:03.000', NULL, '2025-02-25 11:38:05.407', 1);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (144, 1, 18, NULL, '2024-10-09 16:51:57.000', NULL, '2025-02-11 11:51:03.478', 1);
+VALUES (174, 1, 30, '1', '2025-02-11 11:51:03.000', NULL, '2025-02-25 11:38:05.407', 1);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (145, 1, 16, NULL, '2024-10-09 16:51:57.000', NULL, '2025-02-11 11:51:03.478', 1);
+VALUES (175, 1, 28, '1', '2025-02-11 11:51:03.000', NULL, '2025-02-25 11:38:05.407', 1);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (146, 1, 10, NULL, '2024-10-09 16:51:57.000', NULL, '2025-02-11 11:51:03.478', 1);
+VALUES (176, 1, 29, '1', '2025-02-11 11:51:03.000', NULL, '2025-02-25 11:38:05.407', 1);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (147, 1, 2, '1', '2025-02-11 11:51:03.000', NULL, NULL, 0);
+VALUES (177, 1, 1, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (148, 1, 1, '1', '2025-02-11 11:51:03.000', NULL, NULL, 0);
+VALUES (178, 1, 2, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (149, 1, 3, '1', '2025-02-11 11:51:03.000', NULL, NULL, 0);
+VALUES (179, 1, 3, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (150, 1, 9, '1', '2025-02-11 11:51:03.000', NULL, NULL, 0);
+VALUES (180, 1, 9, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (151, 1, 11, '1', '2025-02-11 11:51:03.000', NULL, NULL, 0);
+VALUES (181, 1, 11, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (152, 1, 12, '1', '2025-02-11 11:51:03.000', NULL, NULL, 0);
+VALUES (182, 1, 12, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (153, 1, 6, '1', '2025-02-11 11:51:03.000', NULL, NULL, 0);
+VALUES (183, 1, 6, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (154, 1, 25, '1', '2025-02-11 11:51:03.000', NULL, NULL, 0);
+VALUES (184, 1, 25, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (155, 1, 27, '1', '2025-02-11 11:51:03.000', NULL, NULL, 0);
+VALUES (185, 1, 27, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (156, 1, 26, '1', '2025-02-11 11:51:03.000', NULL, NULL, 0);
+VALUES (186, 1, 26, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (157, 1, 7, '1', '2025-02-11 11:51:03.000', NULL, NULL, 0);
+VALUES (187, 1, 7, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (158, 1, 24, '1', '2025-02-11 11:51:03.000', NULL, NULL, 0);
+VALUES (188, 1, 24, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (159, 1, 23, '1', '2025-02-11 11:51:03.000', NULL, NULL, 0);
+VALUES (189, 1, 23, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (160, 1, 22, '1', '2025-02-11 11:51:03.000', NULL, NULL, 0);
+VALUES (190, 1, 22, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (161, 1, 8, '1', '2025-02-11 11:51:03.000', NULL, NULL, 0);
+VALUES (191, 1, 8, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (162, 1, 19, '1', '2025-02-11 11:51:03.000', NULL, NULL, 0);
+VALUES (192, 1, 19, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (163, 1, 20, '1', '2025-02-11 11:51:03.000', NULL, NULL, 0);
+VALUES (193, 1, 20, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (164, 1, 21, '1', '2025-02-11 11:51:03.000', NULL, NULL, 0);
+VALUES (194, 1, 21, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (165, 1, 5, '1', '2025-02-11 11:51:03.000', NULL, NULL, 0);
+VALUES (195, 1, 5, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (166, 1, 13, '1', '2025-02-11 11:51:03.000', NULL, NULL, 0);
+VALUES (196, 1, 13, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (167, 1, 14, '1', '2025-02-11 11:51:03.000', NULL, NULL, 0);
+VALUES (197, 1, 14, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (168, 1, 15, '1', '2025-02-11 11:51:03.000', NULL, NULL, 0);
+VALUES (198, 1, 15, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (169, 1, 4, '1', '2025-02-11 11:51:03.000', NULL, NULL, 0);
+VALUES (199, 1, 4, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (170, 1, 17, '1', '2025-02-11 11:51:03.000', NULL, NULL, 0);
+VALUES (200, 1, 17, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (171, 1, 18, '1', '2025-02-11 11:51:03.000', NULL, NULL, 0);
+VALUES (201, 1, 18, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (172, 1, 16, '1', '2025-02-11 11:51:03.000', NULL, NULL, 0);
+VALUES (202, 1, 16, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (173, 1, 10, '1', '2025-02-11 11:51:03.000', NULL, NULL, 0);
+VALUES (203, 1, 10, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (174, 1, 30, '1', '2025-02-11 11:51:03.000', NULL, NULL, 0);
+VALUES (204, 1, 30, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (175, 1, 28, '1', '2025-02-11 11:51:03.000', NULL, NULL, 0);
+VALUES (205, 1, 28, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
 INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (176, 1, 29, '1', '2025-02-11 11:51:03.000', NULL, NULL, 0);
+VALUES (206, 1, 29, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
+INSERT INTO `sys_role_menu` (`id`, `role_id`, `menu_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
+VALUES (207, 1, 38, '1', '2025-02-25 11:38:02.000', NULL, NULL, 0);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for sys_user_notice
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_user_notice`;
+CREATE TABLE `sys_user_notice`
+(
+    `id`          bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+    `user_id`     bigint NOT NULL COMMENT '接受用户ID',
+    `notice_id`   bigint NOT NULL COMMENT '消息ID',
+    `status`      int unsigned NOT NULL DEFAULT '9' COMMENT '阅读状态',
+    `create_by`   char(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人',
+    `create_time` datetime(3) DEFAULT NULL COMMENT '创建时间',
+    `update_by`   char(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
+    `update_time` datetime(3) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
+    `del`         tinyint unsigned NOT NULL DEFAULT '0' COMMENT '逻辑删除标记',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='用户消息关联';
+
+-- ----------------------------
+-- Records of sys_user_notice
+-- ----------------------------
+BEGIN;
 COMMIT;
 
 -- ----------------------------
