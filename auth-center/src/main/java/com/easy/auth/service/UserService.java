@@ -1,10 +1,13 @@
 package com.easy.auth.service;
 
 import cn.dev33.satoken.secure.BCrypt;
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.easy.api.service.UserRemoteService;
 import com.easy.api.vo.UserInfoAddVO;
 import com.easy.api.vo.UserInfoVO;
+import com.easy.api.vo.UserPwdVO;
+import com.easy.auth.bean.dto.UserChangePwd;
 import com.easy.auth.bean.entity.UserAccount;
 import com.easy.auth.bean.entity.UserInfo;
 import com.easy.auth.dao.UserMapper;
@@ -141,10 +144,10 @@ public class UserService extends ServiceImpl<UserMapper, UserAccount> implements
         userInfo.setUserId(userAccount.getId());
         userInfo.setClient(userAccount.getClient());
         // 默认配置
-        if (StringUtils.isBlank(addInfo.getNickname())) {
+        if (StringUtils.isNotBlank(addInfo.getNickname())) {
             userInfo.setNickname("用户" + IdUtil.fastSimpleUUID().substring(0, 8));
         }
-        if (StringUtils.isNull(addInfo.getSex())) {
+        if (StringUtils.isNotNull(addInfo.getSex())) {
             userInfo.setSex(Sex.UNKNOWN);
         }
         userInfoService.save(userInfo);
@@ -191,5 +194,53 @@ public class UserService extends ServiceImpl<UserMapper, UserAccount> implements
     @Override
     public List<UserInfoVO> getUserInfoList(List<String> ids) {
         return this.getBaseMapper().selectUserInfoList(ids);
+    }
+
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteByUserId(String id) {
+        // 删除账号
+        this.baseMapper.deleteById(id);
+        userInfoService.lambdaUpdate().eq(UserInfo::getUserId, id).remove();
+    }
+
+    /**
+     * 重置密码
+     *
+     * @param pwd
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void resetPwd(UserPwdVO pwd) {
+        UserAccount userAccount = this.lambdaQuery()
+                .eq(UserAccount::getId, pwd.getId())
+                .one();
+        if (userAccount == null) {
+            throw new CustomizeException(REnum.ACCOUNT_DOES_NOT_EXIST);
+        }
+        this.lambdaUpdate()
+                .eq(UserAccount::getId, pwd.getId())
+                .set(UserAccount::getPassword, BCrypt.hashpw(pwd.getPassword()))
+                .update();
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void changePwd(UserChangePwd dto) {
+        String userId = StpUtil.getLoginId().toString();
+        if (!dto.getPassword().equals(dto.getConfirmPassword())) {
+            throw new CustomizeException("两次密码不一致");
+        }
+        UserAccount userAccount = this.lambdaQuery()
+                .eq(UserAccount::getId, userId)
+                .one();
+        if (!BCrypt.checkpw(dto.getOldPassword(), userAccount.getPassword())) {
+            throw new CustomizeException("旧密码错误");
+        }
+        this.lambdaUpdate()
+                .eq(UserAccount::getId, userId)
+                .set(UserAccount::getPassword, BCrypt.hashpw(dto.getPassword()))
+                .update();
+
     }
 }

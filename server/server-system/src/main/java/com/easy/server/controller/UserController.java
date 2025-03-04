@@ -2,6 +2,7 @@ package com.easy.server.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.easy.api.vo.UserPwdVO;
 import com.easy.common.core.dto.IdDTO;
 import com.easy.common.core.enums.AccountStatus;
 import com.easy.common.core.exception.CustomizeException;
@@ -75,6 +76,30 @@ public class UserController {
     @Operation(summary = "获取用户信息")
     public UserExpandVO getUserInfoById(@RequestBody IdDTO dto) {
         return userService.getUserInfoById(dto.getId());
+    }
+
+    /**
+     * 删除
+     *
+     * @param dto 主键集合
+     */
+    @PostMapping("/del")
+    @Operation(summary = "删除用户")
+    @SaCheckPermission(value = "system.user.del")
+    public void del(@RequestBody IdDTO dto) {
+        userService.del(dto.getId());
+    }
+
+    /**
+     * 重置密码
+     *
+     * @param dto 账号
+     */
+    @PostMapping("/reset_pwd")
+    @Operation(summary = "重置密码")
+    @SaCheckPermission(value = "system.user.update")
+    public void resetPwd(@RequestBody UserPwdVO dto) {
+        userService.resetPwd(dto);
     }
 
 }

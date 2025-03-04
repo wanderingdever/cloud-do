@@ -4,12 +4,10 @@ package com.easy.server.service;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.easy.api.service.UserRemoteService;
-import com.easy.api.vo.RoleVO;
-import com.easy.api.vo.UserInfoAddVO;
-import com.easy.api.vo.UserInfoVO;
-import com.easy.api.vo.UserRoleAndPermissionVO;
+import com.easy.api.vo.*;
 import com.easy.common.core.constant.Constants;
 import com.easy.common.core.enums.AccountClient;
+import com.easy.common.core.exception.CustomizeException;
 import com.easy.common.datasource.utils.PageUtils;
 import com.easy.common.util.http.IpLocation;
 import com.easy.common.util.http.IpUtils;
@@ -134,6 +132,21 @@ public class UserService {
             List<UserRole> userRoles = userRoleService.getList(List.of(userId), dto.getRoleList());
             userRoleService.saveBatch(userRoles);
         }
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void del(String id) {
+        // 删除账号
+        userRemoteService.deleteByUserId(id);
+        // 岗位、角色、组织关联删除
+        delInfo(id);
+    }
+
+    public void resetPwd(UserPwdVO dto) {
+        if (!dto.getPassword().equals(dto.getConfirmPassword())) {
+            throw new CustomizeException("两次密码不一致");
+        }
+        userRemoteService.resetPwd(dto);
     }
 
 }

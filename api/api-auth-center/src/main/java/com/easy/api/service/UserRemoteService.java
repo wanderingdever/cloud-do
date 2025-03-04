@@ -3,6 +3,7 @@ package com.easy.api.service;
 
 import com.easy.api.vo.UserInfoAddVO;
 import com.easy.api.vo.UserInfoVO;
+import com.easy.api.vo.UserPwdVO;
 
 import java.util.List;
 
@@ -47,4 +48,14 @@ public interface UserRemoteService {
      * @return 信息集合
      */
     List<UserInfoVO> getUserInfoList(List<String> ids);
+
+
+    /**
+     * 根据账号 id 删除
+     *
+     * @param id 账号id
+     */
+    void deleteByUserId(String id);
+
+    void resetPwd(UserPwdVO pwd);
 }

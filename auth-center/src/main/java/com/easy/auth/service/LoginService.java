@@ -1,13 +1,11 @@
 package com.easy.auth.service;
 
-import cn.dev33.satoken.secure.BCrypt;
 import cn.dev33.satoken.session.TokenSign;
 import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import com.easy.auth.bean.PwdLogin;
 import com.easy.auth.bean.TokenInfo;
-import com.easy.auth.bean.dto.ChangePwd;
 import com.easy.auth.bean.entity.UserAccount;
 import com.easy.common.core.enums.AccountClient;
 import com.easy.common.core.enums.LoginType;
@@ -74,17 +72,5 @@ public class LoginService {
         // 记录登录日志
         loginLogsService.recordLoginInfo(id, loginType, request);
         return new TokenInfo(saTokenInfo.getTokenValue(), saTokenInfo.getTokenTimeout(), saTokenInfo.getLoginDevice());
-    }
-
-    @Transactional(rollbackFor = Exception.class)
-    public void updatePassword(ChangePwd changePwd) {
-        String userId = StpUtil.getLoginId().toString();
-        UserAccount userAccount = userService.getBaseMapper().selectById(userId);
-        // 验证旧密码
-        if (!BCrypt.checkpw(changePwd.getOldPwd(), userAccount.getPassword())) {
-            throw new CustomizeException("旧密码错误");
-        }
-        // 更新密码
-        userService.getBaseMapper().updatePwdById(userId, BCrypt.hashpw(changePwd.getNewPwd()));
     }
 }

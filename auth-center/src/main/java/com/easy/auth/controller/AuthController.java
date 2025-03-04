@@ -3,8 +3,9 @@ package com.easy.auth.controller;
 import cn.dev33.satoken.stp.StpUtil;
 import com.easy.auth.bean.PwdLogin;
 import com.easy.auth.bean.TokenInfo;
-import com.easy.auth.bean.dto.ChangePwd;
+import com.easy.auth.bean.dto.UserChangePwd;
 import com.easy.auth.service.LoginService;
+import com.easy.auth.service.UserService;
 import com.easy.common.core.enums.REnum;
 import com.easy.common.core.exception.CustomizeException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final LoginService loginService;
-
+    private final UserService userService;
     /**
      * SSO-Server端：处理所有SSO相关请求
      */
@@ -56,12 +57,15 @@ public class AuthController {
     }
 
 
+
     /**
-     * 修改密码
+     * 重置密码
+     *
+     * @param dto 账号
      */
-    @PostMapping(value = "/update_pwd")
-    @Operation(summary = "退出登录")
-    public void updatePwd(@RequestBody ChangePwd changePwd) {
-        loginService.updatePassword(changePwd);
+    @PostMapping("/change_pwd")
+    @Operation(summary = "修改密码")
+    public void changePwd(@RequestBody UserChangePwd dto) {
+        userService.changePwd(dto);
     }
 }
