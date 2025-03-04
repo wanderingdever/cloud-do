@@ -143,11 +143,13 @@ public class UserService extends ServiceImpl<UserMapper, UserAccount> implements
         UserInfo userInfo = new UserInfo();
         userInfo.setUserId(userAccount.getId());
         userInfo.setClient(userAccount.getClient());
+        userInfo.setNickname(addInfo.getNickname());
+        userInfo.setSex(addInfo.getSex());
         // 默认配置
-        if (StringUtils.isNotBlank(addInfo.getNickname())) {
+        if (StringUtils.isBlank(addInfo.getNickname())) {
             userInfo.setNickname("用户" + IdUtil.fastSimpleUUID().substring(0, 8));
         }
-        if (StringUtils.isNotNull(addInfo.getSex())) {
+        if (StringUtils.isNull(addInfo.getSex())) {
             userInfo.setSex(Sex.UNKNOWN);
         }
         userInfoService.save(userInfo);
