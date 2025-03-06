@@ -45,7 +45,7 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> {
      * @return {@link List< MenuTreeVO >}
      */
     public List<MenuTreeVO> getTreeMenu(MenuListDTO dto) {
-        dto.setUserId(StpUtil.getLoginId().toString());
+        dto.setUserId(StpUtil.getLoginIdAsString());
         List<MenuTreeVO> treeList;
         if (StpUtil.getRoleList().contains(Constants.ADMIN_ROLE)) {
             treeList = this.baseMapper.getAllMenuList(dto);
@@ -124,7 +124,7 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> {
      * @return {@link  List< RouterVO >}
      */
     public List<RouterVO> getUserRouter() {
-        String userId = StpUtil.getLoginId().toString();
+        String userId = StpUtil.getLoginIdAsString();
         List<MenuTreeVO> menuList;
         if (StpUtil.getRoleList().contains(Constants.ADMIN_ROLE)) {
             menuList = this.baseMapper.getAllMenuList(new MenuListDTO()).stream().filter(menu -> menu.getMenuType() != MenuType.BUTTON).toList();

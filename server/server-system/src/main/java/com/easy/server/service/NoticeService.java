@@ -101,7 +101,7 @@ public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
     }
 
     public Page<UserNoticeVO> userPageNotice(NoticeSearchDTO dto) {
-        dto.setUserId(StpUtil.getLoginId().toString());
+        dto.setUserId(StpUtil.getLoginIdAsString());
         Page<UserNoticeVO> page = PageUtils.getPage(dto);
         page.setOptimizeCountSql(false);
         page.setRecords(getBaseMapper().userPageNotice(page, dto));
@@ -110,7 +110,7 @@ public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
 
     public void userRead(IdDTO dto) {
         if ("0".equals(dto.getId())) {
-            userNoticeService.lambdaUpdate().eq(UserNotice::getUserId, StpUtil.getLoginId()).set(UserNotice::getStatus, ArticleStatus.READ).update();
+            userNoticeService.lambdaUpdate().eq(UserNotice::getUserId, StpUtil.getLoginIdAsString()).set(UserNotice::getStatus, ArticleStatus.READ).update();
         } else {
             userNoticeService.lambdaUpdate().eq(UserNotice::getId, dto.getId()).set(UserNotice::getStatus, ArticleStatus.READ).update();
         }

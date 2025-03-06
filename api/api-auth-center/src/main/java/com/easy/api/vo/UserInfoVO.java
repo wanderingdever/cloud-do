@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Schema(description = "用户账号")
-public class UserInfoVO extends UserInfoAddVO implements Serializable {
+public class UserInfoVO extends UserInfoExpandVO implements Serializable {
 
     @Schema(description = "主键ID")
     private String id;

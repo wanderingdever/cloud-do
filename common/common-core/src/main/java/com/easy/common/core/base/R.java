@@ -89,4 +89,16 @@ public class R<T> {
         r.setMsg(objectError.getDefaultMessage());
         return r;
     }
+
+    /**
+     * 重写json 序列化
+     */
+    @Override
+    public String toString() {
+        return "{" +
+                "code:" + code +
+                ",msg:'" + msg +
+                ",data:" + data +
+                '}';
+    }
 }

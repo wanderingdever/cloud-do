@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * 用户重置密码信息
  * </p>
@@ -12,7 +14,7 @@ import lombok.Data;
  */
 @Data
 @Schema(title = "用户重置密码信息-入参")
-public class UserPwdVO {
+public class UserPwdVO implements Serializable {
 
 
     @Schema(description = "用户ID", requiredMode = Schema.RequiredMode.REQUIRED)

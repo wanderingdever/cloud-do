@@ -4,7 +4,7 @@ import cn.dev33.satoken.secure.BCrypt;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.easy.api.service.UserRemoteService;
-import com.easy.api.vo.UserInfoAddVO;
+import com.easy.api.vo.UserInfoExpandVO;
 import com.easy.api.vo.UserInfoVO;
 import com.easy.api.vo.UserPwdVO;
 import com.easy.auth.bean.dto.UserChangePwd;
@@ -83,7 +83,7 @@ public class UserService extends ServiceImpl<UserMapper, UserAccount> implements
     /**
      * 根据账号查询用户信息
      *
-     * @param username 账号
+     * @param username 账号/手机号/邮箱
      * @return 用户信息
      */
     public UserAccount getUserByUsername(String username) {
@@ -134,7 +134,7 @@ public class UserService extends ServiceImpl<UserMapper, UserAccount> implements
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public String addUserAccount(UserInfoAddVO addInfo) {
+    public String addUserAccount(UserInfoExpandVO addInfo) {
         UserAccount userAccount = BeanUtils.copyProperties(addInfo, UserAccount.class);
         // 加密密码
         userAccount.setPassword(BCrypt.hashpw(addInfo.getPassword()));
@@ -229,7 +229,7 @@ public class UserService extends ServiceImpl<UserMapper, UserAccount> implements
 
     @Transactional(rollbackFor = Exception.class)
     public void changePwd(UserChangePwd dto) {
-        String userId = StpUtil.getLoginId().toString();
+        String userId = StpUtil.getLoginIdAsString();
         if (!dto.getPassword().equals(dto.getConfirmPassword())) {
             throw new CustomizeException("两次密码不一致");
         }

@@ -1,7 +1,7 @@
 package com.easy.api.service;
 
 
-import com.easy.api.vo.UserInfoAddVO;
+import com.easy.api.vo.UserInfoExpandVO;
 import com.easy.api.vo.UserInfoVO;
 import com.easy.api.vo.UserPwdVO;
 
@@ -23,7 +23,7 @@ public interface UserRemoteService {
      * @param userAccount 新增账号信息
      * @return 账号 id
      */
-    String addUserAccount(UserInfoAddVO userAccount);
+    String addUserAccount(UserInfoExpandVO userAccount);
 
     /**
      * 更新用户信息

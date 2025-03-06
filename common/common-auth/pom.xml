@@ -36,6 +36,7 @@
             <artifactId>sa-token-redis-jackson</artifactId>
             <version>${sa-token.version}</version>
         </dependency>
+
         <!-- Sa-Token插件：权限缓存与业务缓存分离 -->
         <dependency>
             <groupId>cn.dev33</groupId>

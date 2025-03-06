@@ -1,5 +1,8 @@
 package com.easy.common.core.constant;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * 通用常量信息
  *
@@ -85,5 +88,7 @@ public interface Constants {
      * 防重提交 redis key
      */
     String REPEAT_SUBMIT_KEY = "repeat_submit:";
+
+    List<String> URL_WHITE_LIST = Arrays.asList("/*/*.js", "/lang/*.json", "/*/*.css", "/*/*.js", "/*/*.map", "/*/*.html", "/*/*.png", "/*/*.ico", "/*/*.jpg", "/favicon.ico", "/doc.html", "/webjars/*", "/swagger*/*", "/v2/*", "/v3/*");
 
 }

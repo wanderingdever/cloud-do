@@ -12,7 +12,6 @@ import com.easy.common.datasource.utils.PageUtils;
 import com.easy.common.util.http.IpLocation;
 import com.easy.common.util.http.IpUtils;
 import com.easy.common.util.lang.BeanUtils;
-import com.easy.common.util.lang.DateUtils;
 import com.easy.common.util.lang.StringUtils;
 import com.easy.server.bean.dto.user.UserEditDTO;
 import com.easy.server.bean.dto.user.UserInfoDTO;
@@ -53,7 +52,7 @@ public class UserService {
     @Transactional(rollbackFor = Exception.class)
     public void add(@Valid UserInfoDTO dto) {
         // 调用增加用户接口
-        UserInfoAddVO addInfo = BeanUtils.copyProperties(dto, UserInfoAddVO.class);
+        UserInfoExpandVO addInfo = BeanUtils.copyProperties(dto, UserInfoExpandVO.class);
         addInfo.setClient(AccountClient.SYSTEM);
         addInfo.setPassword(Constants.INIT_PASSWORD);
         String userId = userRemoteService.addUserAccount(addInfo);
@@ -62,7 +61,7 @@ public class UserService {
     }
 
     public UserExpandVO getLoginUserInfo(HttpServletRequest request) {
-        UserInfoVO userInfo = userRemoteService.getUserInfo(StpUtil.getLoginId().toString());
+        UserInfoVO userInfo = userRemoteService.getUserInfo(StpUtil.getLoginIdAsString());
         UserExpandVO userExpand = BeanUtils.copyProperties(userInfo, UserExpandVO.class);
         UserRoleAndPermissionVO userRoleList = roleService.getUserRoleKeyList(userInfo.getId());
         userExpand.setRoleList(userRoleList.getRoles().stream().map(RoleVO::getRoleKey).toList());
@@ -72,7 +71,7 @@ public class UserService {
         IpLocation location = IpUtils.getLocation(request);
         userExpand.setIp(location.getIp());
         userExpand.setIpLocation(location.getCountry() + location.getProvince() + location.getCity());
-        userExpand.setLoginTime(DateUtils.nowDateTime());
+        userExpand.setLoginTime(StpUtil.getTokenInfo().getTag());
         return userExpand;
     }
 
