@@ -7,7 +7,7 @@ import com.easy.api.service.UserRemoteService;
 import com.easy.api.vo.UserInfoExpandVO;
 import com.easy.api.vo.UserInfoVO;
 import com.easy.api.vo.UserPwdVO;
-import com.easy.auth.bean.dto.UserChangePwd;
+import com.easy.auth.bean.dto.UserChangePwdDTO;
 import com.easy.auth.bean.entity.UserAccount;
 import com.easy.auth.bean.entity.UserInfo;
 import com.easy.auth.dao.UserMapper;
@@ -228,7 +228,7 @@ public class UserService extends ServiceImpl<UserMapper, UserAccount> implements
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void changePwd(UserChangePwd dto) {
+    public void changePwd(UserChangePwdDTO dto) {
         String userId = StpUtil.getLoginIdAsString();
         if (!dto.getPassword().equals(dto.getConfirmPassword())) {
             throw new CustomizeException("两次密码不一致");

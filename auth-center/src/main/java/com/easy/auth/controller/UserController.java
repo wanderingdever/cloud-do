@@ -2,11 +2,13 @@ package com.easy.auth.controller;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.easy.api.vo.UserInfoVO;
-import com.easy.auth.bean.dto.UserChangePwd;
+import com.easy.auth.bean.dto.UserAccountDTO;
+import com.easy.auth.bean.dto.UserChangePwdDTO;
 import com.easy.auth.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,7 +47,18 @@ public class UserController {
      */
     @PostMapping("/change_pwd")
     @Operation(summary = "修改密码")
-    public void changePwd(@RequestBody UserChangePwd dto) {
+    public void changePwd(@Valid @RequestBody UserChangePwdDTO dto) {
         userService.changePwd(dto);
+    }
+
+    /**
+     * 忘记密码
+     *
+     * @param userAccount 账号
+     */
+    @PostMapping("/forget_pwd")
+    @Operation(summary = "忘记密码")
+    public void forgetPwd(@Valid @RequestBody UserAccountDTO userAccount) {
+        // userService.forgetPwd(userAccount);
     }
 }

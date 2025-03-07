@@ -12,7 +12,7 @@ import lombok.Data;
  */
 @Data
 @Schema(title = "用户重置密码信息-入参")
-public class UserChangePwd {
+public class UserChangePwdDTO {
 
     @Schema(description = "原密码", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "请输入原密码")
