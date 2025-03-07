@@ -14,7 +14,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum MailCodeType implements EnumInterface<String> {
 
-    REGISTER("REGISTER", "注册", "mail_code:register:", "安全验证", false),
+    REGISTER("REGISTER", "注册", "mail_code:register:", "注册", false),
     UPDATE_INFO("UPDATE_INFO", "更新信息", "mail_code:update_info:", "安全验证", true),
     CHANGE_PASSWORD("CHANGE_PASSWORD", "修改密码", "mail_code:change_password:", "安全验证", true),
     ;
