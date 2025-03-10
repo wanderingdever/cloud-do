@@ -69,11 +69,82 @@
     </dependencies>
 
     <build>
-        <finalName>auth-center</finalName>
+        <finalName>${project.name}-${project.artifactId}</finalName>
         <plugins>
             <plugin>
-                <groupId>org.graalvm.buildtools</groupId>
-                <artifactId>native-maven-plugin</artifactId>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- docker 打包插件 -->
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.4.1</version>
+                <configuration>
+                    <!-- 容器相关设置 -->
+                    <container>
+                        <!-- jvm 参数 -->
+                        <jvmFlags>
+                            <jvmFlag>-Xms512m</jvmFlag>
+                            <jvmFlag>-Xmx1024m</jvmFlag>
+                            <jvmFlag>-Dfile.encoding=utf-8</jvmFlag>
+                            <jvmFlag>-Duser.timezone=Asia/Shanghai</jvmFlag>
+                        </jvmFlags>
+                        <!-- 创建时间 -->
+                        <creationTime>${maven.build.timestamp}</creationTime>
+                        <!-- 放置应用程序内容的容器上的根目录 -->
+                        <appRoot>/home</appRoot>
+                        <!-- 容器中的工作目录 -->
+                        <workingDirectory>/home</workingDirectory>
+                        <!--FIXME 注意启动类路径 -->
+                        <mainClass>com.easy.auth.AuthApp</mainClass>
+                        <!-- 指定运行的参数 -->
+                        <environment>
+                            <!--suppress UnresolvedMavenProperty -->
+                            <!-- 打包时间，build-helper-maven-plugin 插件会自动赋值，可忽略报错 -->
+                            <!--                            <time.package>${env.build.time}</time.package>-->
+                            <TZ>Asia/Shanghai</TZ>
+                        </environment>
+                    </container>
+                    <!-- 基础镜像，如果是私服，需要加上鉴权信息，和 to 下的 auth 节点相同 -->
+                    <from>
+                        <image>${jdk.url}</image>
+                        <auth>
+                            <username>${registry.username}</username>
+                            <password>${registry.password}</password>
+                        </auth>
+                    </from>
+                    <!-- 构建后的镜像名称以及私服地址、鉴权信息 -->
+                    <to>
+                        <image>${registry.url}/${build.finalName}</image>
+                        <tags>
+                            <tag>${images.version}</tag>
+                        </tags>
+                        <auth>
+                            <username>${registry.username}</username>
+                            <password>${registry.password}</password>
+                        </auth>
+                    </to>
+                    <!-- 允许非 https -->
+                    <allowInsecureRegistries>true</allowInsecureRegistries>
+                </configuration>
+                <!-- 将 jib 与 mvn 构建的生命周期绑定 mvn install 自动构造镜像 -->
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

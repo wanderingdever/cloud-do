@@ -17,6 +17,7 @@
     </modules>
 
     <properties>
+        <project.name>cloud-do</project.name>
         <java.version>21</java.version>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
@@ -49,6 +50,23 @@
         <knife4j.version>4.5.0</knife4j.version>
         <redisson.version>3.41.0</redisson.version>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>docker</id>
+            <!--  打包命令  mvn -DsendCredentialsOverHttp=true -Dmaven.test.skip=true clean install -T 12 -Pdocker -->
+            <properties>
+                <!-- 镜像仓库 -->
+                <registry.url>registry.aliyun.com/XXX</registry.url>
+                <!-- 项目jdk依赖 -->
+                <jdk.url>registry.aliyun.com/XXX/openjdk:21</jdk.url>
+                <registry.username>test</registry.username>
+                <registry.password>test</registry.password>
+                <!-- 镜像版本 -->
+                <images.version>1.0.0</images.version>
+            </properties>
+        </profile>
+    </profiles>
 
     <dependencyManagement>
         <dependencies>
