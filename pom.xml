@@ -9,11 +9,11 @@
     <version>1.0.0</version>
     <packaging>pom</packaging>
     <modules>
-        <module>server</module>
-        <module>gateway</module>
-        <module>common</module>
-        <module>auth-center</module>
-        <module>api</module>
+        <module>cloud-server</module>
+        <module>cloud-gateway</module>
+        <module>cloud-common</module>
+        <module>cloud-auth</module>
+        <module>cloud-api</module>
     </modules>
 
     <properties>
@@ -130,49 +130,49 @@
             <!-- 子模块 -->
             <dependency>
                 <groupId>com.easy</groupId>
-                <artifactId>common-auth</artifactId>
+                <artifactId>cloud-common-auth</artifactId>
                 <version>1.0.0</version>
             </dependency>
             <dependency>
                 <groupId>com.easy</groupId>
-                <artifactId>common-core</artifactId>
+                <artifactId>cloud-common-core</artifactId>
                 <version>1.0.0</version>
             </dependency>
             <dependency>
                 <groupId>com.easy</groupId>
-                <artifactId>common-datasource</artifactId>
+                <artifactId>cloud-common-datasource</artifactId>
                 <version>1.0.0</version>
             </dependency>
             <dependency>
                 <groupId>com.easy</groupId>
-                <artifactId>common-redis</artifactId>
+                <artifactId>cloud-common-redis</artifactId>
                 <version>1.0.0</version>
             </dependency>
             <dependency>
                 <groupId>com.easy</groupId>
-                <artifactId>common-util</artifactId>
+                <artifactId>cloud-common-util</artifactId>
                 <version>1.0.0</version>
             </dependency>
             <dependency>
                 <groupId>com.easy</groupId>
-                <artifactId>common-web</artifactId>
+                <artifactId>cloud-common-web</artifactId>
                 <version>1.0.0</version>
             </dependency>
             <dependency>
                 <groupId>com.easy</groupId>
-                <artifactId>common-dubbo</artifactId>
+                <artifactId>cloud-common-dubbo</artifactId>
                 <version>1.0.0</version>
             </dependency>
 
             <!-- api 模块-->
             <dependency>
                 <groupId>com.easy</groupId>
-                <artifactId>api-auth-center</artifactId>
+                <artifactId>cloud-api-auth</artifactId>
                 <version>1.0.0</version>
             </dependency>
             <dependency>
                 <groupId>com.easy</groupId>
-                <artifactId>api-server-system</artifactId>
+                <artifactId>cloud-api-server-system</artifactId>
                 <version>1.0.0</version>
             </dependency>
 
