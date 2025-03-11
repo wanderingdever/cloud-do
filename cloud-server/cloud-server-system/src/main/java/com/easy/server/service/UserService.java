@@ -117,7 +117,6 @@ public class UserService {
         delInfo(userId);
         // 新增岗位、角色、组织关联编辑
         addOtherInfo(dto, userId);
-        throw new CustomizeException("修改失败");
     }
 
     private void delInfo(String userId) {
