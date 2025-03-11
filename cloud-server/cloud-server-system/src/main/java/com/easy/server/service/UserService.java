@@ -24,6 +24,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.seata.spring.annotation.GlobalTransactional;
 import org.dromara.hutool.core.collection.CollUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,6 +51,7 @@ public class UserService {
     private final RoleService roleService;
 
     @Transactional(rollbackFor = Exception.class)
+    @GlobalTransactional
     public void add(@Valid UserInfoDTO dto) {
         // 调用增加用户接口
         UserInfoExpandVO addInfo = BeanUtils.copyProperties(dto, UserInfoExpandVO.class);
@@ -106,6 +108,7 @@ public class UserService {
     }
 
     @Transactional(rollbackFor = Exception.class)
+    @GlobalTransactional
     public void update(@Valid UserEditDTO dto) {
         UserInfoVO userInfo = new UserInfoVO();
         BeanUtils.copyProperties(dto, userInfo);
@@ -114,6 +117,7 @@ public class UserService {
         delInfo(userId);
         // 新增岗位、角色、组织关联编辑
         addOtherInfo(dto, userId);
+        throw new CustomizeException("修改失败");
     }
 
     private void delInfo(String userId) {
@@ -134,6 +138,7 @@ public class UserService {
     }
 
     @Transactional(rollbackFor = Exception.class)
+    @GlobalTransactional
     public void del(String id) {
         // 删除账号
         userRemoteService.deleteByUserId(id);
@@ -141,6 +146,8 @@ public class UserService {
         delInfo(id);
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    @GlobalTransactional
     public void resetPwd(UserPwdVO dto) {
         if (!dto.getPassword().equals(dto.getConfirmPassword())) {
             throw new CustomizeException("两次密码不一致");

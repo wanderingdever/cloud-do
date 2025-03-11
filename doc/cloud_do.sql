@@ -11,7 +11,7 @@
  Target Server Version : 80032 (8.0.32)
  File Encoding         : 65001
 
- Date: 27/02/2025 14:22:12
+ Date: 11/03/2025 14:57:27
 */
 
 SET NAMES utf8mb4;
@@ -59,7 +59,7 @@ CREATE TABLE `login_logs` (
   `update_time` datetime(3) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
   `del` tinyint NOT NULL DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='登录记录';
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='登录记录';
 
 -- ----------------------------
 -- Records of login_logs
@@ -190,6 +190,21 @@ INSERT INTO `login_logs` (`id`, `user_id`, `login_type`, `ip`, `ip_location`, `b
 VALUES (25, 1, 'PWD', '192.168.5.12', ',,内网IP',
         'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0',
         '2025-02-26 11:42:17.000', NULL, NULL, 0);
+INSERT INTO `login_logs` (`id`, `user_id`, `login_type`, `ip`, `ip_location`, `browser`, `login_time`, `create_time`,
+                          `update_time`, `del`)
+VALUES (26, 1, 'PWD', '192.168.5.12', ',,内网IP',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0',
+        '2025-03-06 15:51:05.000', NULL, NULL, 0);
+INSERT INTO `login_logs` (`id`, `user_id`, `login_type`, `ip`, `ip_location`, `browser`, `login_time`, `create_time`,
+                          `update_time`, `del`)
+VALUES (27, 1, 'PWD', '192.168.5.12', ',,内网IP',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0',
+        '2025-03-06 15:51:20.000', NULL, NULL, 0);
+INSERT INTO `login_logs` (`id`, `user_id`, `login_type`, `ip`, `ip_location`, `browser`, `login_time`, `create_time`,
+                          `update_time`, `del`)
+VALUES (28, 1, 'PWD', '192.168.5.12', ',,内网IP',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36 Edg/134.0.0.0',
+        '2025-03-11 14:25:24.000', NULL, NULL, 0);
 COMMIT;
 
 -- ----------------------------
@@ -869,14 +884,14 @@ CREATE TABLE `sys_user_org`
     `update_time` datetime(3) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
     `del`         tinyint unsigned NOT NULL DEFAULT '0' COMMENT '逻辑删除标记',
     PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='用户->机构关联';
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='用户->机构关联';
 
 -- ----------------------------
 -- Records of sys_user_org
 -- ----------------------------
 BEGIN;
 INSERT INTO `sys_user_org` (`id`, `user_id`, `org_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (1, 1, 1, NULL, NULL, NULL, NULL, 0);
+VALUES (42, 1, 1, '1', '2025-03-11 14:50:33.000', NULL, NULL, 0);
 COMMIT;
 
 -- ----------------------------
@@ -894,14 +909,39 @@ CREATE TABLE `sys_user_role`
     `update_time` datetime(3) DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '修改时间',
     `del`         tinyint unsigned NOT NULL DEFAULT '0' COMMENT '逻辑删除标记',
     PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='用户->角色关联';
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='用户->角色关联';
 
 -- ----------------------------
 -- Records of sys_user_role
 -- ----------------------------
 BEGIN;
 INSERT INTO `sys_user_role` (`id`, `user_id`, `role_id`, `create_by`, `create_time`, `update_by`, `update_time`, `del`)
-VALUES (1, 1, 1, NULL, NULL, NULL, NULL, 0);
+VALUES (38, 1, 1, '1', '2025-03-11 14:50:33.000', NULL, NULL, 0);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for undo_log
+-- ----------------------------
+DROP TABLE IF EXISTS `undo_log`;
+CREATE TABLE `undo_log`
+(
+    `id`            bigint       NOT NULL AUTO_INCREMENT,
+    `branch_id`     bigint       NOT NULL,
+    `xid`           varchar(100) NOT NULL,
+    `context`       varchar(128) NOT NULL,
+    `rollback_info` longblob     NOT NULL,
+    `log_status`    int          NOT NULL,
+    `log_created`   datetime     NOT NULL,
+    `log_modified`  datetime     NOT NULL,
+    `ext`           varchar(100) DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `ux_undo_log` (`xid`,`branch_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb3;
+
+-- ----------------------------
+-- Records of undo_log
+-- ----------------------------
+BEGIN;
 COMMIT;
 
 -- ----------------------------
@@ -931,8 +971,8 @@ CREATE TABLE `user_account` (
 BEGIN;
 INSERT INTO `user_account` (`id`, `username`, `email`, `phone`, `password`, `client`, `status`, `create_time`,
                             `update_time`, `del`)
-VALUES (1, 'admin', NULL, NULL, '$2a$10$ctagQJswnSwUyl/akFuFFeLyRO/ffMxuK2HhnzM29w9lfBLoZCU82', 'SYSTEM', 'NORMAL',
-        '2025-02-07 15:39:54.000', NULL, 0);
+VALUES (1, 'admin', NULL, NULL, '$2a$10$4jG.VC6mtMY7.Vzshgcd8e9tJd69b9eg.VUBrGHplE4yDpCjJjdnO', 'SYSTEM', 'NORMAL',
+        '2025-02-07 15:39:54.000', '2025-03-06 15:58:42.673', 0);
 COMMIT;
 
 -- ----------------------------
@@ -957,7 +997,7 @@ CREATE TABLE `user_info` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `user_info` (`id`, `user_id`, `client`, `nickname`, `avatar`, `sex`, `create_time`, `update_time`, `del`)
-VALUES (1, 1, 'SYSTEM', '超级管理员', NULL, '2', '2025-02-07 15:41:07.000', '2025-02-10 10:24:37.291', 0);
+VALUES (1, 1, 'SYSTEM', '超级管理员', NULL, '2', '2025-02-07 15:41:07.000', '2025-03-11 14:50:33.178', 0);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -1,0 +1,12 @@
+##seata配置（seata相关的配置文件），配置在服务消费方 & 服务提供方。端口8091，依赖于mysql服务、nacos服务。客户端访问地址：http://127.0.0.1:7091/
+seata:
+  enabled: true
+  application-id: ${spring.application.name}
+  data-source-proxy-mode: AT
+  tx-service-group: cloud_do
+  enable-auto-data-source-proxy: true
+  service:
+    vgroup-mapping:
+      cloud_do: cluster1
+    grouplist:
+      cluster1: 192.168.5.111:8091

@@ -9,6 +9,7 @@ spring:
       - optional:application-datasource.yml
       - optional:application-redis.yml
       - optional:application-dubbo.yml
+      - optional:seata.yml
   profiles:
     active: dev
 

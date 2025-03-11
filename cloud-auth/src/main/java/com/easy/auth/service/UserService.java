@@ -157,7 +157,6 @@ public class UserService extends ServiceImpl<UserMapper, UserAccount> implements
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public String updateUserInfo(UserInfoVO userInfo) {
         this.lambdaUpdate().eq(UserAccount::getId, userInfo.getId()).set(UserAccount::getStatus, userInfo.getStatus()).update();
         userInfoService.lambdaUpdate().eq(UserInfo::getUserId, userInfo.getId())
@@ -200,7 +199,6 @@ public class UserService extends ServiceImpl<UserMapper, UserAccount> implements
 
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public void deleteByUserId(String id) {
         // 删除账号
         this.baseMapper.deleteById(id);
